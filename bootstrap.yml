@@ -1,0 +1,44 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (CentOS)
+    tags: always
+    dnf:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+
+  - name: install updates (Ubuntu)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: create mimir user
+    tags: always
+    user:
+      name: mimir
+      groups: root
+
+  - name: add ssh key for mimir
+    tags: always
+    authorized_key:
+      user: mimir
+      key: "your super puper special power mega secret key"
+
+  - name: add sudoers for mimr
+    tags: always
+    copy:
+        src: sudoer_mimir
+        dest: /etc/sudoers.d/mimir
+        owner: root
+        group: root
+        mode: 0440
