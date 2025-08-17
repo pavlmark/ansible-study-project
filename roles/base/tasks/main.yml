@@ -1,0 +1,4 @@
+- name: add ssh key for mimir
+  authorized_key:
+    user: mimir
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF8sHk7Dd0OrFTJPIz2dlQyVs+hb5ZLMzJ1YeVckR2hE pavl default"
